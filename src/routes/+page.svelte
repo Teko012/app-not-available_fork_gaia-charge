@@ -80,13 +80,21 @@
 			Find in which App Store regions the app is available.
 		</P>
 
-		<form id="search-form" on:submit|preventDefault={doSearch} class="mx-auto flex max-w-xl">
-			<div class="relative">
-				<Button color="dark" size="lg" class="whitespace-nowrap rounded-e-none border border-e-0">
+		<form
+			id="search-form"
+			on:submit|preventDefault={doSearch}
+			class="mx-auto flex max-w-xl flex-col gap-2 sm:flex-row"
+		>
+			<div class="relative w-full sm:w-auto">
+				<Button
+					color="dark"
+					size="lg"
+					class="w-full whitespace-nowrap rounded-none sm:rounded-e-none sm:border-e-0"
+				>
 					{formatCamelCase(selectCategory)}
 					<ChevronDownOutline class="ms-2.5 h-2.5 w-2.5" />
 				</Button>
-				<Dropdown bind:open={dropdownOpen} classContainer="w-40">
+				<Dropdown bind:open={dropdownOpen} classContainer="w-full sm:w-40">
 					{#each Object.keys(appStoreRegions) as region}
 						<DropdownItem
 							on:click={() => {
@@ -100,15 +108,16 @@
 					{/each}
 				</Dropdown>
 			</div>
-			<Search
-				bind:value={searchTerm}
-				type="number"
-				min="0"
-				placeholder="Enter the numeric App ID"
-				class="rounded-s-none"
-			>
-				<Button type="submit" color="dark" class="mr-1">Search</Button>
-			</Search>
+			<div class="flex w-full flex-col gap-2 sm:flex-row">
+				<Search
+					bind:value={searchTerm}
+					type="number"
+					min="0"
+					placeholder="Enter the numeric App ID"
+					class="w-full rounded-none sm:rounded-s-none"
+				/>
+				<Button type="submit" color="dark" class="w-full rounded-none sm:w-auto">Search</Button>
+			</div>
 		</form>
 
 		<div class="mb-8 mt-8 grid grid-cols-1 gap-8">
