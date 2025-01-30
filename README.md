@@ -1,6 +1,8 @@
-# [`app-not-available`]()
+# [App Not Available?](https://gaia-charge.github.io/app-not-available/)
 
-🌐 Tool for checking in which App Store region the app is available in
+![](https://gaia-charge.github.io/app-not-available/card.png)
+
+🌐 Tool for checking in which App Store region the app is available in.
 
 ## Developing
 
