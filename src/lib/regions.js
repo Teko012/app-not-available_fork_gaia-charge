@@ -86,6 +86,7 @@ const appStoreRegions = {
         { code: 'fr', name: 'France', emoji: '🇫🇷' },
         { code: 'gb', name: 'United Kingdom', emoji: '🇬🇧' },
         { code: 'gr', name: 'Greece', emoji: '🇬🇷' },
+        { code: 'ge', name: 'Georgia', emoji: '🇬🇪' },
         { code: 'hr', name: 'Croatia', emoji: '🇭🇷' },
         { code: 'hu', name: 'Hungary', emoji: '🇭🇺' },
         { code: 'ie', name: 'Ireland', emoji: '🇮🇪' },
