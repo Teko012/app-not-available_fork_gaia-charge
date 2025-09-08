@@ -25,10 +25,34 @@
 	let searchResults = {};
 	let isLoading = false;
 	let loadingStates = {};
+	let errorMessage = '';
+
+	// Function to extract App ID from Apple App Store URL or return the input if it's already a number
+	const extractAppId = (input) => {
+		if (!input) return null;
+		
+		// Check if input is already a numeric ID
+		if (/^\d+$/.test(input.trim())) {
+			return input.trim();
+		}
+		
+		// Regex to extract ID from Apple App Store URLs
+		const urlRegex = /\/id(\d+)(?:\?|$)/;
+		const match = input.match(urlRegex);
+		
+		return match ? match[1] : null;
+	};
 
 	const doSearch = async () => {
 		if (!searchTerm) return;
 
+		const appId = extractAppId(searchTerm);
+		if (!appId) {
+			errorMessage = 'Please enter a valid Apple App Store URL or numeric App ID';
+			return;
+		}
+
+		errorMessage = ''; // Clear any previous error message
 		isLoading = true;
 		searchResults = {};
 		loadingStates = {}; // Reset loading states
@@ -37,7 +61,7 @@
 			loadingStates[region.code] = true; // Set loading state for this region
 			try {
 				const response = await fetch(
-					`https://itunes.apple.com/lookup?id=${searchTerm}&country=${region.code}`
+					`https://itunes.apple.com/lookup?id=${appId}&country=${region.code}`
 				);
 				const data = await response.json();
 				searchResults[region.code] = data.resultCount > 0;
@@ -50,6 +74,12 @@
 
 		await Promise.all(promises);
 		isLoading = false;
+	};
+
+	const clearErrorMessage = () => {
+		if (errorMessage) {
+			errorMessage = '';
+		}
 	};
 
 	const formatCamelCase = (text) => {
@@ -80,7 +110,14 @@
 			Find in which App Store regions the app is available.
 		</P>
 
-		<form
+		<div class="relative">
+			{#if errorMessage}
+				<div class="absolute -top-16 left-1/2 z-10 w-full max-w-xl -translate-x-1/2 transform rounded-lg bg-red-100 p-4 text-red-700 shadow-lg dark:bg-red-900 dark:text-red-300">
+					{errorMessage}
+				</div>
+			{/if}
+
+			<form
 			id="search-form"
 			on:submit|preventDefault={doSearch}
 			class="mx-auto flex max-w-xl flex-col gap-2 sm:flex-row"
@@ -111,14 +148,14 @@
 			<div class="flex w-full flex-col gap-2 sm:flex-row">
 				<Search
 					bind:value={searchTerm}
-					type="number"
-					min="0"
-					placeholder="Enter the numeric App ID"
+					on:input={clearErrorMessage}
+					placeholder="Enter App Store URL or numeric App ID"
 					class="w-full rounded-none sm:rounded-s-none"
 				/>
 				<Button type="submit" color="dark" class="w-full rounded-none sm:w-auto">Search</Button>
 			</div>
 		</form>
+		</div>
 
 		<div class="mb-8 mt-8 grid grid-cols-1 gap-8">
 			<div>
@@ -152,7 +189,7 @@
 											</svg>
 										{:else if searchResults[region.code]}
 											<a
-												href="https://apps.apple.com/{region.code}/app/id{searchTerm}"
+												href="https://apps.apple.com/{region.code}/app/id{extractAppId(searchTerm)}"
 												target="_blank"
 												class="text-blue-600 hover:underline"
 											>
