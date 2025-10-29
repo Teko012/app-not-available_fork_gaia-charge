@@ -51,7 +51,6 @@ const appStoreRegions = {
         { code: 'bn', name: 'Brunei', emoji: '🇧🇳' },
         { code: 'kh', name: 'Cambodia', emoji: '🇰🇭' },
         { code: 'cn', name: 'China', emoji: '🇨🇳' },
-        { code: 'ge', name: 'Georgia', emoji: '🇬🇪' },
         { code: 'hk', name: 'Hong Kong', emoji: '🇭🇰' },
         { code: 'in', name: 'India', emoji: '🇮🇳' },
         { code: 'id', name: 'Indonesia', emoji: '🇮🇩' },
